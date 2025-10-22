@@ -167,13 +167,13 @@ export const validateSubscribeForm = (values: any) => {
   return errors;
 };
 // ================================
-export const formatPrice = (price: number, currency: string = "EUR") => {
-  let options = {
-    style: "currency",
-    currency: currency,
-  };
-  return new Intl.NumberFormat("fr-FR", options as any).format(price);
-};
+// export const formatPrice = (price: number, currency: string = "EUR") => {
+//   let options = {
+//     style: "currency",
+//     currency: currency,
+//   };
+//   return new Intl.NumberFormat("fr-FR", options as any).format(price);
+// };
 // ================================
 export const sonoreEffet = (status = "success") => {
   console.log(status);
