@@ -2,13 +2,13 @@ import { CONNECTED, LOGOUT } from "../actions/actions";
 import { AuthAction } from "../actions/types";
 import { getInitStore } from "../lib/initLib";
 
-const initStore = getInitStore();
+const initState = getInitStore();
 const initAction: AuthAction = {
   type: LOGOUT,
-  payload: initStore,
+  payload: initState,
 };
 export const authReducers = (
-  state = initStore,
+  state = initState,
   action: AuthAction = initAction
 ) => {
   switch (action.type) {
@@ -22,6 +22,7 @@ export const authReducers = (
       };
       break;
     case LOGOUT:
+      localStorage.removeItem("auth");
       return {
         isAuth: false,
         token: "",

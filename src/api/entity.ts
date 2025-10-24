@@ -158,7 +158,12 @@ export const signin = async (user: User) => {
   const datas = await postAuth(url, user);
   if (datas.isSuccess) {
     // auth success
-    setItem("auth", { token: datas.token, userId: datas.userId });
+    setItem("auth", {
+      token: datas.token,
+      userId: datas.userId,
+      projectId: "",
+      modelId: "",
+    });
     // console.log(datas);
   }
   return datas;

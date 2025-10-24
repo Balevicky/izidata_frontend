@@ -10,12 +10,12 @@ import {
 interface userConnectedData {
   token: string;
   userId: string;
-  projectId?: string;
-  modelId?: string;
+  projectId: string;
+  modelId: string;
 }
 export interface AuthAction {
   type: typeof CONNECTED | typeof LOGOUT;
-  payload: userConnectedData | null | undefined;
+  payload: userConnectedData | null;
 }
 // ============== Notification
 export interface NotificationItem {

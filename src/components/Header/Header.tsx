@@ -3,18 +3,33 @@
  
   Created At : 29/09/2025 16:19:40
 */
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import "./Header.css";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getAuthState } from "../../redux/selectors/selectors";
+import { LOGOUT } from "../../redux/actions/actions";
 
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = () => {
+  const [redirect, setRedirect] = useState<boolean>(false);
+  const isAuth = useSelector(getAuthState);
+  const dispatch = useDispatch();
   useEffect(() => {
     window.scrollTo(0, 0);
     const runLocalData = async () => {};
     runLocalData();
-  });
+  }, []);
+  const handleLogout = (e: any) => {
+    // e.preventDefault();
+    e.preventDefault();
+    dispatch({
+      type: LOGOUT,
+      payload: null,
+    });
+    setRedirect(true);
+  };
 
   return (
     <div className="Header">
@@ -120,7 +135,7 @@ const Header: FC<HeaderProps> = () => {
             </ul>
             <div className="d-flex">
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                {/* {isAuth ? (
+                {isAuth ? (
                   <>
                     <li className="nav-item">
                       <a
@@ -163,7 +178,7 @@ const Header: FC<HeaderProps> = () => {
                       </Link>
                     </li>
                   </>
-                )} */}
+                )}
               </ul>
             </div>
           </div>

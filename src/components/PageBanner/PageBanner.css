@@ -1,0 +1,12 @@
+/*
+  Authors : Mudey Formation
+  Website : https://mudey.fr/
+  App Name : E-commerce with React.Js
+  Created At : 23/10/2025 11:09:59
+*/
+
+/* .PageBanner {} */
+.PageBanner .bgSucc {
+  background: white !important;
+  color: rgb(33, 11, 232) !important;
+}
