@@ -8,6 +8,7 @@ import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
 import PrivatRoute from "./guard/PrivatRoute/PrivatRoute";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
+import AccountPage from "./pages/AccountPage/AccountPage";
 
 function App() {
   return (
@@ -20,6 +21,14 @@ function App() {
             element={
               <PrivatRoute>
                 <Home />
+              </PrivatRoute>
+            }
+          />
+          <Route
+            path="/account"
+            element={
+              <PrivatRoute>
+                <AccountPage />
               </PrivatRoute>
             }
           />

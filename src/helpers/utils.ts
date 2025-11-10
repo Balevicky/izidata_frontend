@@ -108,6 +108,68 @@ export const validateRegisterForm = (values: any) => {
   return errors;
 };
 // ===============================
+// ======================
+// export const reductionRate = (product: Product) => {
+//   let result = 0;
+//   // const { solde_price, regular_price} = product
+//   result =
+//     ((product.regular_price - product.price) * 100) /
+//     product.regular_price;
+//   return result.toFixed(0);
+// };
+// ===============================
+
+// ===============================
+export const validateUpdateUserForm = (values: any) => {
+  const errors: any = {};
+  if (!values.username) {
+    errors.username = "Saisie obligatoire";
+  } else if (values.username.length > 15) {
+    errors.username = "Must be 15 characters or less";
+  }
+  if (!values.lastname) {
+    errors.lastname = "Saisie obligatoire";
+  } else if (values.lastname.length > 15) {
+    errors.lastname = "Must be 15 characters or less";
+  }
+  if (!values.firstname) {
+    errors.firstname = "Saisie obligatoire";
+  } else if (values.firstname.length > 15) {
+    errors.firstname = "Must be 15 characters or less";
+  }
+
+  if (!values.email) {
+    errors.email = "Saisie obligatoire";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = "Email invalide";
+  }
+
+  if (!values.password) {
+    errors.password = "Saisie obligatoire";
+  } else if (values.password.length < 6) {
+    errors.password = "Mot de passe doit avoir 6 chractères au moins";
+  } else if (values.password.length > 20) {
+    errors.password = "Mot de passe doit avoir 20 chractères au maxi";
+  }
+
+  if (!values.confirmPassword) {
+    errors.confirmPassword = "Saisie obligatoire";
+  } else if (values.confirmPassword.length < 6) {
+    errors.confirmPassword = "Mot de passe doit avoir 6 chractères au moins";
+  } else if (values.confirmPassword !== values.password) {
+    errors.confirmPassword = "Les mots de passe ne sont identiques";
+  } else if (values.confirmPassword.length > 20) {
+    errors.confirmPassword = "Mot de passe doit avoir 20 chractères au maxi";
+  }
+  if (!values.image) {
+    errors.image = "Sélection obligatoire";
+  }
+  // if (!values.acceptedTerms) {
+  //   errors.acceptedTerms = "Saisie obligatoire";
+  // }
+  return errors;
+};
+// ===============================
 export const validateProductForm = (values: any) => {
   const errors: any = {};
 
