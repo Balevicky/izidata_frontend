@@ -9,12 +9,13 @@ import Loading from "../../components/Loading/Loading";
 import { generateId, validateUpdateUserForm } from "../../helpers/utils";
 import { useFormik } from "formik";
 import { User } from "../../models/user";
-import { updateData } from "../../api/entity";
+import { getDataById, updateData } from "../../api/entity";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserID } from "../../redux/selectors/selectors";
 import { ADD_NOTIFICATION } from "../../redux/actions/actions";
 import { Link } from "react-router-dom";
 import PageBanner from "../../components/PageBanner/PageBanner";
+import { resquestResponse } from "../../models/resquestResponse";
 
 interface AccountPageProps {}
 
@@ -23,14 +24,19 @@ const AccountPage: FC<AccountPageProps> = () => {
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState("");
   const [formError, setFormError] = useState<string>("");
+  const [curentUser, setCurentUser] = useState<User>({});
   const [previewImage, setPreviewImage] = useState<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
   const userId = useSelector(getUserID);
+  console.log(userId);
+
   const validate = (value: any) => validateUpdateUserForm(value);
-  //  const validate = (value: any) => validateProductForm(value);
+  // ==============
+
   const formik = useFormik({
     initialValues: {
+      // username: "Goli",
       username: "",
       firstname: "",
       lastname: "",
@@ -90,16 +96,42 @@ const AccountPage: FC<AccountPageProps> = () => {
       }
     },
   });
-
   // ======================
+  const runLocalData = async () => {
+    const user: any = await getDataById("users", userId);
+    console.log(user);
+
+    if (user.isSuccess) {
+      const datUser: any = user.result;
+      console.log(datUser);
+
+      setCurentUser(datUser);
+      console.log(value);
+
+      formik.setValues({
+        username: curentUser.username || "",
+        firstname: curentUser.firstname || "",
+        lastname: curentUser.lastname || "",
+        // fullname: "",
+        phone: curentUser.phone || "",
+        email: curentUser.email || "",
+        password: curentUser.password || "",
+        confirmPassword: curentUser.password || "",
+        image: curentUser.image || "",
+      });
+    }
+    setValue("1");
+    setLoading(false);
+  };
+  // =============================
   useEffect(() => {
-    window.scrollTo(0, 0);
-    const runLocalData = async () => {
-      setLoading(false);
-    };
+    // window.scrollTo(0, 0);
     runLocalData();
+    console.log(curentUser);
   }, [value]);
   // ==============
+  console.log(curentUser);
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let file: File | null = null;
     if (event.currentTarget.files && event.currentTarget.files.length > 0) {
@@ -135,6 +167,7 @@ const AccountPage: FC<AccountPageProps> = () => {
                     </div>
                     <form
                       onSubmit={formik.handleSubmit}
+                      encType="multipart/form-data"
                       className="row mx-5 pb-2 "
                     >
                       <p className="error text-danger">{formError}</p>
@@ -174,11 +207,11 @@ const AccountPage: FC<AccountPageProps> = () => {
                           />
                         ) : (
                           <img
-                            className="rounded-circle bg-primary  text-center"
-                            src=""
+                            className="rounded-circle "
+                            src="/Photo1.png"
                             // alt="selection une Photo"
                             // style={{ width: "200px", height: "200px" }}
-                            title=" selection une Photo PHOTO"
+
                             style={{ width: "150px", height: "150px" }}
                             onClick={() => {
                               fileInputRef.current?.click();
@@ -214,17 +247,14 @@ const AccountPage: FC<AccountPageProps> = () => {
                       null} */}
                       {/* ======================== */}
                       <div className="mb-3">
-                        <label
-                          htmlFor="exampleInputEmail1"
-                          className="form-label"
-                        >
+                        <label htmlFor="exampleInputgin" className="form-label">
                           Login
                         </label>
                         <input
                           type="text"
                           className="form-control"
                           name="username"
-                          id="exampleInputEmail1"
+                          id="exampleInputgin"
                           aria-describedby="emailHelp"
                           onChange={formik.handleChange}
                           value={formik.values.username}
@@ -236,17 +266,14 @@ const AccountPage: FC<AccountPageProps> = () => {
                         ) : null}
                       </div>
                       <div className="mb-3">
-                        <label
-                          htmlFor="exampleInputEmail1"
-                          className="form-label"
-                        >
+                        <label htmlFor="exampleInputNom" className="form-label">
                           Nom
                         </label>
                         <input
                           type="text"
                           className="form-control"
                           name="lastname"
-                          id="exampleInputEmail1"
+                          id="exampleInputNom"
                           aria-describedby="emailHelp"
                           onChange={formik.handleChange}
                           value={formik.values.lastname}
@@ -259,7 +286,7 @@ const AccountPage: FC<AccountPageProps> = () => {
                       </div>
                       <div className="mb-3">
                         <label
-                          htmlFor="exampleInputEmail1"
+                          htmlFor="exampleInputPrenoms"
                           className="form-label"
                         >
                           Prénoms
@@ -268,7 +295,7 @@ const AccountPage: FC<AccountPageProps> = () => {
                           type="text"
                           className="form-control"
                           name="firstname"
-                          id="exampleInputEmail1"
+                          id="exampleInputPrenoms"
                           aria-describedby="emailHelp"
                           onChange={formik.handleChange}
                           value={formik.values.firstname}
@@ -324,7 +351,7 @@ const AccountPage: FC<AccountPageProps> = () => {
                       ) : null}
                       <div className="mb-3">
                         <label
-                          htmlFor="exampleInputPassword1"
+                          htmlFor="exampleInputConfigPassword"
                           className="form-label"
                         >
                           Confirmé mot de passse
@@ -333,7 +360,7 @@ const AccountPage: FC<AccountPageProps> = () => {
                           type="password"
                           name="confirmPassword"
                           className="form-control"
-                          id="exampleInputPassword1"
+                          id="exampleInputConfigPassword"
                           onChange={formik.handleChange}
                           value={formik.values.confirmPassword}
                         />

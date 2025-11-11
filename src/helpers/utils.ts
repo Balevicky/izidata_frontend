@@ -42,18 +42,24 @@ export const cleanData = (datas: resquestResponse) => {
     // ==========
     if (datas?.result) {
       console.log(datas.result);
-      datas.results = datas?.result.map((result: any) => {
-        if (result?.image) {
-          result.image = cleanImageUrl(result.image);
+      if (Array.isArray(datas?.result)) {
+        datas.results = datas?.result.map((result: any) => {
+          if (result?.image) {
+            result.image = cleanImageUrl(result.image);
+          }
+          // ====== plusieurs images
+          // if (result?.imageUrls) {
+          //   result.imageUrls.map((imageUrl: string) => {
+          //     return cleanImageUrl(imageUrl);
+          //   });
+          // }
+          return result;
+        });
+      } else {
+        if (datas?.result?.image) {
+          return cleanImageUrl(datas?.result?.image);
         }
-        // ====== plusieurs images
-        // if (result?.imageUrls) {
-        //   result.imageUrls.map((imageUrl: string) => {
-        //     return cleanImageUrl(imageUrl);
-        //   });
-        // }
-        return result;
-      });
+      }
     }
   }
   return datas;

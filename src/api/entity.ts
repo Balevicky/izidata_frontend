@@ -4,6 +4,16 @@ import { User } from "../models/user";
 import { setItem } from "../services/localStorage.service";
 import { get, patchFile, postAuth, postFile, remove } from "./fecthHelpers";
 
+export const getDataById = async (entityName: string, id: string) => {
+  const url = webApiUrl + entityName + "/" + id;
+
+  const data = await get(url);
+  console.log(data);
+  
+
+   return cleanData(data);
+};
+// ==============
 export const getDatas = async (entityName: string) => {
   const url = webApiUrl + entityName;
 
